@@ -192,7 +192,7 @@
     <Compile Include="Models\SourceMessageModel.cs" />
     <Compile Include="Models\TokenAccessModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scope.cs" />
+    <Compile Include="Models\Scope.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
