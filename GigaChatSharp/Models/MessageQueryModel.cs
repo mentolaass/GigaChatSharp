@@ -2,7 +2,7 @@
 
 namespace GigaChatSharp.Models
 {
-    public class MessageQuery
+    public class MessageQueryModel
     {
         /// <summary>
         /// Роль автора сообщения

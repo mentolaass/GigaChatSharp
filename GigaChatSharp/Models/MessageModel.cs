@@ -8,7 +8,7 @@ namespace GigaChatSharp.Models
         /// Сгенерированное сообщение
         /// </summary>
         [JsonProperty("message")]
-        public MessageQuery Message { get; set; }
+        public MessageQueryModel Message { get; set; }
 
         /// <summary>
         /// Индекс сообщения в массиве начиная с нуля.

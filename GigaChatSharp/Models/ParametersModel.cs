@@ -5,13 +5,13 @@ namespace GigaChatSharp.Models
     /// <summary>
     /// Параметры запроса к GigaChat.
     /// </summary>
-    public class Parameters
+    public class ParametersModel
     {
         /// <summary>
-        /// Название модели, от которой нужно получить ответ.
+        /// Массив ответов модели
         /// </summary>
         [JsonProperty("messages")]
-        public MessageQuery[] Messages { get; set; } = new MessageQuery[] { };
+        public MessageQueryModel[] Messages { get; set; } = new MessageQueryModel[] { };
 
         /// <summary>
         /// Название модели, от которой нужно получить ответ.

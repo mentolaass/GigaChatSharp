@@ -1,4 +1,5 @@
-﻿using GigaChatSharp.Models;
+﻿using GigaChatSharp.Events.Models;
+using GigaChatSharp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -12,40 +13,34 @@ namespace GigaChatSharp
 {
     public class GigaChat
     {
-        public string GigaChatClientSecret { get; set; }
-        public string GigaChatAuthData { get; set; }
-        public TokenAccess DataTokenAccess { get; set; }
+        # region fields 
+        private string GigaChatClientSecret { get; set; }
+        private string GigaChatAuthData { get; set; }
+        private Scope GigaChatScope { get; set; }
+        private TokenAccessModel DataTokenAccess { get; set; }
+        # endregion fields 
 
-        public GigaChat(string ClientSecret, string AuthData, bool AutoUpdateAccessToken = false)
+        #region events
+        public delegate void AccessTokenExpired(AccessTokenArgs args);
+
+        public event AccessTokenExpired AccessTokenExpiredHandler;                      
+        #endregion events
+
+        public GigaChat(string clientSecret, string authData, Scope scope)
         {
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(delegate { return true; });
 
-            GigaChatClientSecret = ClientSecret;
-            GigaChatAuthData = AuthData;
-
-            if (AutoUpdateAccessToken)
-            {
-                LoopUpdateAccessToken();
-            }
+            GigaChatClientSecret = clientSecret;
+            GigaChatAuthData = authData;
+            GigaChatScope = scope;
         }
 
-        private async void LoopUpdateAccessToken()
+        private bool IsTokenActive()
         {
-            await Task.Factory.StartNew(async () =>
-            {
-                for (; ; )
-                {
-                    if (DateTime.Now < new DateTime(DataTokenAccess.ExpiresDate))
-                    {
-                        await Authorize();
-                    }
-
-                    await Task.Delay(1000);
-                }
-            });
+            return DateTime.Now > new DateTime(DataTokenAccess.ExpiresDate);
         }
 
-        public async Task<TokenAccess> Authorize()
+        public async Task Authorize()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -54,22 +49,21 @@ namespace GigaChatSharp
                     message.Headers.Add("Authorization", $"Bearer {GigaChatAuthData}");
                     message.Headers.Add("RqUID", GigaChatClientSecret);
 
-                    message.Content = new StringContent("scope=GIGACHAT_API_PERS");
+                    message.Content = new StringContent($"scope={GigaChatScope.ToString()}");
                     message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
                     var response = await client.SendAsync(message);
-                    DataTokenAccess = JsonConvert.DeserializeObject<TokenAccess>(await response.Content.ReadAsStringAsync());
-
-                    return DataTokenAccess;
+                    DataTokenAccess = JsonConvert.DeserializeObject<TokenAccessModel>(await response.Content.ReadAsStringAsync());
                 }
             }
         }
 
-        public async Task<GigaModel> GetModels()
+        public async Task<ListModel> GetModels()
         {
-            if (DateTime.Now < new DateTime(DataTokenAccess.ExpiresDate))
+            if (!IsTokenActive())
             {
-                throw new Exception("Access token is expired... Please create new token...");
+                AccessTokenExpiredHandler.Invoke(new AccessTokenArgs() { GigaChatClient = this });
+                return null;
             }
 
             using (HttpClient client = new HttpClient())
@@ -79,42 +73,36 @@ namespace GigaChatSharp
                     message.Headers.Add("Authorization", $"Bearer {DataTokenAccess.AccessToken}");
 
                     var response = await client.SendAsync(message);
-                    var data = JsonConvert.DeserializeObject<GigaModel>(await response.Content.ReadAsStringAsync());
+                    var data = JsonConvert.DeserializeObject<ListModel>(await response.Content.ReadAsStringAsync());
 
                     return data;
                 }
             }
         }
 
-        public async Task<ResponseQuery> SendQuery(Parameters dataParams, string answer)
+        public async Task<ResponseQueryModel> SendMessage(ParametersModel dataParams, string answer)
         {
-            if (DateTime.Now < new DateTime(DataTokenAccess.ExpiresDate))
+            if (!IsTokenActive())
             {
-                throw new Exception("Access token is expired... Please create new token...");
+                AccessTokenExpiredHandler.Invoke(new AccessTokenArgs() { GigaChatClient = this });
+                return null;
             }
-            else if (dataParams.Model.Length == 0) throw new Exception("Please write model name to send query...");
 
-            dataParams.Messages = dataParams.Messages.Append(new MessageQuery() { Role="user", Content=answer }).ToArray();
+            dataParams.Messages = dataParams.Messages.Append(new MessageQueryModel() { Role="user", Content=answer }).ToArray();
 
             using (HttpClient client = new HttpClient())
             {
                 using (HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"))
                 {
-                    // set params
                     message.Headers.Add("Authorization", $"Bearer {DataTokenAccess.AccessToken}");
                     message.Content = new StringContent(JsonConvert.SerializeObject(dataParams), Encoding.UTF8);
 
                     var response = await client.SendAsync(message);
-                    var data = JsonConvert.DeserializeObject<ResponseQuery>(await response.Content.ReadAsStringAsync());
+                    var data = JsonConvert.DeserializeObject<ResponseQueryModel>(await response.Content.ReadAsStringAsync());
 
                     return data;
                 }
             }
         }
-
-        public TimeSpan GetDateToExpireTokenAccess()
-        {
-            return new DateTime(DataTokenAccess.ExpiresDate) - DateTime.Now;
-        }
-    }
+    } 
 }

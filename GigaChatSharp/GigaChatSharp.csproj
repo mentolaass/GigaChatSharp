@@ -180,17 +180,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\Models\AccessTokenArgs.cs" />
     <Compile Include="GigaChat.cs" />
-    <Compile Include="Models\GigaModel.cs" />
-    <Compile Include="Models\AIModel.cs" />
+    <Compile Include="Models\ListModel.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\MessageParameters.cs" />
-    <Compile Include="Models\MessageQuery.cs" />
-    <Compile Include="Models\Parameters.cs" />
-    <Compile Include="Models\ResponseQuery.cs" />
+    <Compile Include="Models\MessageParametersModel.cs" />
+    <Compile Include="Models\MessageQueryModel.cs" />
+    <Compile Include="Models\ParametersModel.cs" />
+    <Compile Include="Models\ResponseQueryModel.cs" />
     <Compile Include="Models\SourceMessageModel.cs" />
-    <Compile Include="Models\TokenAccess.cs" />
+    <Compile Include="Models\TokenAccessModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scope.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

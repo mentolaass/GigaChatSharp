@@ -2,10 +2,10 @@
 
 namespace GigaChatSharp.Models
 {
-    public class GigaModel
+    public class ListModel
     {
         [JsonProperty("data")]
-        public AIModel[] data { get; set; }
+        public Model[] data { get; set; }
 
         [JsonProperty("object")]
         public string obj { get; set; }

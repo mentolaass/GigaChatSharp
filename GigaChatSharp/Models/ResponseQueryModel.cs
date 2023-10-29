@@ -2,7 +2,7 @@
 
 namespace GigaChatSharp.Models
 {
-    public class ResponseQuery
+    public class ResponseQueryModel
     {
         /// <summary>
         /// Массив ответов модели.
@@ -26,7 +26,7 @@ namespace GigaChatSharp.Models
         /// Данные об использовании модели
         /// </summary>
         [JsonProperty("usage")]
-        public MessageParameters Parameters { get; set; }
+        public MessageParametersModel Parameters { get; set; }
 
         /// <summary>
         /// Название вызываемого метода

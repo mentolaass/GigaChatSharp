@@ -2,7 +2,7 @@
 
 namespace GigaChatSharp.Models
 {
-    public class MessageParameters
+    public class MessageParametersModel
     {
         /// <summary>
         /// Количество токенов во входящем сообщении

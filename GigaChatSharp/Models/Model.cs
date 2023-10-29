@@ -2,7 +2,7 @@
 
 namespace GigaChatSharp.Models
 {
-    public class AIModel
+    public class Model
     {
         [JsonProperty("id")]
         public string id { get; set; }
