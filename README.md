@@ -15,7 +15,7 @@ ModelsArray.data.ToList().ForEach(model => {
 });
 ```
 
-### Get new access token will old in expire
+### Get new access token when will old token in expire
 ```csharp
 GigaChatClient.AccessTokenExpiredHandler += async (args) {
   await args.ReAuthorize();
