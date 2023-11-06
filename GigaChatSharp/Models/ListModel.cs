@@ -7,7 +7,9 @@ namespace GigaChatSharp.Models
     public class ListModel
     {
         [JsonProperty("data")]
-        private Model[] data { get; }
+        public Model[] _data { set { data = value; } }
+
+        private Model[] data { get; set; }
 
         [JsonProperty("object")]
         public string obj { get; set; }
