@@ -8,9 +8,9 @@ namespace GigaChatSharpExample
 {
     class Program
     {
-        const string secret = "c3c4a22d-f4c2-4fae-9e88-c73821f7009d";
+        const string secret = "";
 
-        const string auth = "YjJjOTgwMzAtOTI2NC00MDM5LTk4YmMtMmU0OTNlNzQ4ZGQ2OmMzYzRhMjJkLWY0YzItNGZhZS05ZTg4LWM3MzgyMWY3MDA5ZA==";
+        const string auth = "";
 
         static ParametersModel dataParams = new ParametersModel();
 
