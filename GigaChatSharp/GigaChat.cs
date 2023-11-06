@@ -117,7 +117,7 @@ namespace GigaChatSharp
 
                     // Десериализация ответа в объект TokenAccessModel
                     var data = await response.Content.ReadAsStringAsync();
-                    var tokenAccessModel = JsonConvert.DeserializeObject<TokenAccessModel>(data);
+                    DataTokenAccess = JsonConvert.DeserializeObject<TokenAccessModel>(data);
 
                     // Установка значения переменной IsAuthState в false, для остановки процесса авторизации
                     IsAuthState = false;

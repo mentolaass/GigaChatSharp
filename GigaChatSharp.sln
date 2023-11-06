@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GigaChatSharp", "GigaChatSharp\GigaChatSharp.csproj", "{FF782682-3607-46B0-97E7-25D38366B463}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GigaChatSharpExample", "GigaChatSharpExample\GigaChatSharpExample.csproj", "{1C2A6E1E-15A2-4C9B-881B-F2C96E98C151}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FF782682-3607-46B0-97E7-25D38366B463}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF782682-3607-46B0-97E7-25D38366B463}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF782682-3607-46B0-97E7-25D38366B463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C2A6E1E-15A2-4C9B-881B-F2C96E98C151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C2A6E1E-15A2-4C9B-881B-F2C96E98C151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C2A6E1E-15A2-4C9B-881B-F2C96E98C151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2A6E1E-15A2-4C9B-881B-F2C96E98C151}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
