@@ -10,7 +10,7 @@ var GigaChatClient = new GigaChat("CLIENT_SECRET", "AUTH_DATA", Scope.GIGACHAT_A
 await GigaChatClient.Authorize();
 
 var ModelsArray = await GigaChatClient.GetModels();
-ModelsArray.data.ToList().ForEach(model => {
+ModelsArray.ToList().ForEach(model => {
   Console.WriteLine(model.id);
 });
 ```
